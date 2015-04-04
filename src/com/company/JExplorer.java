@@ -6,8 +6,10 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Vector;
+import java.awt.Desktop;
 
 /**
  * Created by 锦 on 2015/3/31.
@@ -40,6 +42,19 @@ class UI extends JPanel {
     static int ABOVE_WIDTH =  160;
 
     JFrame frame = null;
+
+    private static Desktop desktop;
+    public static void open(String Path) {
+        if (Desktop.isDesktopSupported()) {
+            desktop = Desktop.getDesktop();
+            try {
+                desktop.open(new File(Path));
+            } catch (Exception e) {
+                
+                e.printStackTrace();
+            }
+        }
+    }
 
     public String isPartition(String Path){
         Path = Path.trim();
@@ -98,11 +113,13 @@ class UI extends JPanel {
                         Path = isPartition(Path);
                         Path = Path + '\\' + list.getModel().getElementAt(i);
                         AllPath.add(Path);
+                        open(Path);
                         System.out.print(999+"\n");
                         //System.out.print(i+"   "+Path+"\n");
                     }
                 for(int i = 0;i < AllPath.size();i++){
                     System.out.println(AllPath.get(i));
+
                 }
             }
         }
