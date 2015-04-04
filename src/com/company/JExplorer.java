@@ -6,13 +6,13 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
 import java.util.Vector;
 
 /**
  * Created by 锦 on 2015/3/31.
  */
 public class JExplorer {
-    Vector<String> Path = new Vector<String>();
     public JExplorer(){
         JFrame frame = new JFrame();
         UI panel = new UI(frame);
@@ -27,12 +27,8 @@ public class JExplorer {
         frame.setLocation(left, top);
         frame.setVisible(true);
 
-        Path = panel.getAllPath();
     }
 
-    public Vector<String> getPath(){
-        return this.Path;
-    }
 }
 
 class UI extends JPanel {
@@ -44,11 +40,16 @@ class UI extends JPanel {
     static int ABOVE_WIDTH =  160;
 
     JFrame frame = null;
-    public String Path;
-    Vector<String> AllPath = new Vector<String>();
 
-    public Vector<String> getAllPath(){
-        return this.AllPath;
+    public String isPartition(String Path){
+        Path = Path.trim();
+        if(Path.charAt(Path.length()-1) == '\\'){
+            System.out.print("123\n");
+            Path = Path.substring(0,Path.length()-1);
+            return Path;
+        } else {
+            return Path;
+        }
     }
 
     public UI(JFrame frame) {
@@ -88,12 +89,21 @@ class UI extends JPanel {
 
             public ButtonListener(FileList list){this.list=list;}
             public  void actionPerformed(ActionEvent e){
+                Vector<String> AllPath = new Vector<String>();
+                String Path;
+
                 for(int i=0;i<=999;i++)
                     if(list.isSelectedIndex(i)){
-                        Path = list.FilePath + "\\" + list.getModel().getElementAt(i);
+                        Path = list.FilePath;
+                        Path = isPartition(Path);
+                        Path = Path + '\\' + list.getModel().getElementAt(i);
                         AllPath.add(Path);
-                        System.out.print(i+"   "+Path+"\n");
+                        System.out.print(999+"\n");
+                        //System.out.print(i+"   "+Path+"\n");
                     }
+                for(int i = 0;i < AllPath.size();i++){
+                    System.out.println(AllPath.get(i));
+                }
             }
         }
 
