@@ -23,6 +23,7 @@ public class FileTree extends JTree {
     public FileTree(FileList list) {
         theList = list;
         setModel(new FileSystemModel(new FolderNode()));
+        this.setCellRenderer(new FolderRenderer());
         addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent tse) {
             }

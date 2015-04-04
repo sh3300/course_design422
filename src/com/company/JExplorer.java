@@ -6,15 +6,18 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 /**
  * Created by 锦 on 2015/3/31.
  */
 public class JExplorer {
+    Vector<String> Path = new Vector<String>();
     public JExplorer(){
         JFrame frame = new JFrame();
+        UI panel = new UI(frame);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new UI(frame));
+        frame.getContentPane().add(panel);
         frame.pack();
 
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -23,6 +26,12 @@ public class JExplorer {
 
         frame.setLocation(left, top);
         frame.setVisible(true);
+
+        Path = panel.getAllPath();
+    }
+
+    public Vector<String> getPath(){
+        return this.Path;
     }
 }
 
@@ -36,9 +45,10 @@ class UI extends JPanel {
 
     JFrame frame = null;
     public String Path;
+    Vector<String> AllPath = new Vector<String>();
 
-    public String getPath(){
-        return this.Path;
+    public Vector<String> getAllPath(){
+        return this.AllPath;
     }
 
     public UI(JFrame frame) {
@@ -81,6 +91,7 @@ class UI extends JPanel {
                 for(int i=0;i<=999;i++)
                     if(list.isSelectedIndex(i)){
                         Path = list.FilePath + "\\" + list.getModel().getElementAt(i);
+                        AllPath.add(Path);
                         System.out.print(i+"   "+Path+"\n");
                     }
             }
